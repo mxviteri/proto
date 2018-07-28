@@ -1,23 +1,30 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, TextInput, Button } from 'react-native';
 import styles from './styles';
+import Users from '../fixtures/user';
 
 export default class Login extends Component {
-  state = {
-    email: '',
-    password: ''
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: ''
+    };
+  }
 
-  login() {
-    console.log('testing login');
+  login = () => {
+    let match = false;
+    Object.values(Users).forEach(user => {
+      if (this.state.email === user.email && this.state.password === user.password) {
+        match = true;
+      }
+    });
+    this.props.setAuthenticated(match)
   }
 
   render() {
     return (
       <View style={styles.rootView}>
-        <Text>
-          Sample login form... left the initial instructions there for you to look at.
-        </Text>
         <TextInput
           style={styles.input}
           onChangeText={text => this.setState({email: text})}
@@ -32,8 +39,7 @@ export default class Login extends Component {
         />
         <View style={styles.buttonContainer}>
           <Button
-            style={styles.button}
-            onPress={this.login}
+            onPress={() => this.login()}
             title="Login"
           />
         </View>
