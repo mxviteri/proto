@@ -20,18 +20,19 @@ const instructions = Platform.select({
 
 export default class App extends Component {
   state = {
-    authenticated: false
+    authenticated: false,
+    user: null
   }
 
-  authenticate = (bool) => {
-    this.setState({ authenticated: bool })
+  authenticate = (bool, user) => {
+    this.setState({ authenticated: bool, user })
   }
 
   render() {
     return (
       <View style={styles.container}>
         {this.state.authenticated ? (
-          <HomeScreen logout={() => this.authenticate(false)} />
+          <HomeScreen logout={() => this.authenticate(false)} user={this.state.user} />
         ) : (
           <Login setAuthenticated={this.authenticate} />
         )}
@@ -43,9 +44,7 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#F5FCFF'
   },
   welcome: {
     fontSize: 20,

@@ -1,10 +1,14 @@
-export default users = {
-  Matt: {
+export default users = [
+  {
+    name: 'Matt',
     email: 'mxviteri@gmail.com',
-    password: 'password'
+    password: 'password',
+    gravatar: 'https://www.gravatar.com/avatar/'
   },
-  Hung: {
+  {
+    name: 'Hung',
     email: 'hungmuha712@gmail.com',
-    password: 'password'
+    password: 'password',
+    gravatar: 'https://www.gravatar.com/avatar/'
   }
-}
+]

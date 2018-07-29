@@ -14,17 +14,19 @@ export default class Login extends Component {
 
   login = () => {
     let match = false;
-    Object.values(Users).forEach(user => {
-      if (this.state.email === user.email && this.state.password === user.password) {
+    let user = null;
+    Users.forEach(item => {
+      if (this.state.email === item.email && this.state.password === item.password) {
         match = true;
+        user = item;
       }
     });
-    this.props.setAuthenticated(match)
+    this.props.setAuthenticated(match, user)
   }
 
   render() {
     return (
-      <View style={styles.rootView}>
+      <View style={styles.container}>
         <TextInput
           style={styles.input}
           onChangeText={text => this.setState({email: text})}
