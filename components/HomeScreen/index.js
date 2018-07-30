@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
 import { observer, Provider } from 'mobx-react';
-import styles from './styles';
+import styled from 'styled-components';
 import RootStore from '../StateManagement/rootStore';
 import Profile from '../Profile';
+
+const Container = styled.View`
+  width: 90%;
+  flex: 1;
+  align-self: center;
+`;
+
+const LogoutButton = styled.View`
+  margin: 10px;
+`;
 
 @observer
 class HomeScreen extends Component {
@@ -15,15 +25,15 @@ class HomeScreen extends Component {
   render() {
     return (
       <Provider rootStore={this.store}>
-        <View style={styles.rootView}>
+        <Container>
           <Profile />
-          <View style={styles.buttonContainer}>
+          <LogoutButton>
             <Button
               onPress={this.props.logout}
               title="Logout"
             />
-          </View>
-        </View>
+          </LogoutButton>
+        </Container>
       </Provider>
     )
   }

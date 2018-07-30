@@ -1,7 +1,23 @@
 import React, { Component } from 'react';
 import { View, TextInput, Button } from 'react-native';
-import styles from './styles';
+import styled from 'styled-components';
 import Users from '../fixtures/user';
+
+const Container = styled.View`
+  width: 90%;
+  flex: 1;
+  justify-content: center;
+  align-self: center;
+`;
+
+const Credentials = styled.TextInput`
+  margin: 10px;
+  background-color: #FFFFFF;
+`;
+
+const LoginButton = styled.View`
+  margin: 10px;
+`;
 
 export default class Login extends Component {
   constructor(props) {
@@ -26,26 +42,24 @@ export default class Login extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <TextInput
-          style={styles.input}
+      <Container>
+        <Credentials
           onChangeText={text => this.setState({email: text})}
           placeholder="Email"
           value={this.state.email} 
         />
-        <TextInput
-          style={styles.input}
+        <Credentials
           onChangeText={text => this.setState({password: text})}
           placeholder="Password"
           value={this.state.password}
         />
-        <View style={styles.buttonContainer}>
+        <LoginButton>
           <Button
             onPress={() => this.login()}
             title="Login"
           />
-        </View>
-      </View>
+        </LoginButton>
+      </Container>
     )
   }
 };
