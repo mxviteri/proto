@@ -1,23 +1,22 @@
-import { observable, action, computed } from 'mobx';
+import { observable, action, computed, reaction } from 'mobx';
 import Tasks from '../fixtures/tasks';
 
 class RootStore {
+  @observable authenticated = false;
   @observable user = {};
   @observable tasks = [];
 
-  constructor(user) {
+  constructor() {
+    reaction(
+      () => this.user,
+      () => this.getTasks()
+    );
+  }
+
+  @action.bound
+  authenticate(user, bool) {
     this.user = user;
-    this.getTasks();
-  }
-
-  @computed get userName() {
-    return this.user.name;
-  }
-
-  @computed get taskTotal() {
-    return this.tasks
-      .filter(task => task.complete)
-      .reduce((accum, next) => accum + next.points, 0);
+    this.authenticated = bool;
   }
 
   @action.bound
@@ -37,6 +36,24 @@ class RootStore {
   @action.bound
   toggleTaskCompletion(index) {
     this.tasks[index].complete = !this.tasks[index].complete;
+  }
+
+  @action.bound
+  saveProfile(profile) {
+    this.user = {
+      ...this.user,
+      ...profile
+    };
+  }
+
+  @computed get userName() {
+    return this.user.name;
+  }
+
+  @computed get taskTotal() {
+    return this.tasks
+      .filter(task => task.complete)
+      .reduce((accum, next) => accum + next.points, 0);
   }
 }
 

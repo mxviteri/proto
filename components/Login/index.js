@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, TextInput, Button } from 'react-native';
+import { observer, inject } from 'mobx-react';
 import styled from 'styled-components';
 import Users from '../fixtures/user';
 
@@ -19,7 +20,9 @@ const LoginButton = styled.View`
   margin: 10px;
 `;
 
-export default class Login extends Component {
+@inject('rootStore')
+@observer
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,14 +33,14 @@ export default class Login extends Component {
 
   login = () => {
     let match = false;
-    let user = null;
+    let user = {};
     Users.forEach(item => {
       if (this.state.email === item.email && this.state.password === item.password) {
         match = true;
         user = item;
       }
     });
-    this.props.setAuthenticated(match, user)
+    this.props.rootStore.authenticate(user, match);
   }
 
   render() {
@@ -63,3 +66,5 @@ export default class Login extends Component {
     )
   }
 };
+
+export default Login;

@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, Button, Image } from 'react-native';
+import { View, Text, TextInput, Button, Image } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import styled from 'styled-components';
-import TaskList from '../TaskList';
 
 const Container = styled.View`
+  width: 90%;
   flex: 1;
-  margin-top: 10;
-  margin-bottom: 10;
+  align-self: center;
+  margin-top: 20;
+  margin-bottom: 20;
 `;
 
 const Header = styled.View`
@@ -27,9 +28,31 @@ const Name = styled.Text`
   margin-left: 15;
 `;
 
+const Info = styled.TextInput`
+  background-color: #FFFFFF;
+  margin-top: 10;
+`;
+
+const SaveButton = styled.View`
+  margin-top: 10;
+  margin-bottom: 10;
+`;
+
 @inject('rootStore')
 @observer
 class Profile extends Component {
+  static navigationOptions = {
+    title: 'Profile'
+  };
+  state = {
+    email: this.props.rootStore.user.email,
+    phone: this.props.rootStore.user.phone
+  };
+
+  save = () => {
+    this.props.rootStore.saveProfile(this.state);
+  }
+
   render () {
     const rootStore = this.props.rootStore;
 
@@ -41,7 +64,18 @@ class Profile extends Component {
           />
           <Name>{rootStore.userName}</Name>
         </Header>
-        <TaskList />
+        <Info
+          onChangeText={text => this.setState({email: text})}
+          value={this.state.email} />
+        <Info
+          onChangeText={text => this.setState({phone: text})}
+          value={this.state.phone} />
+        <SaveButton>
+          <Button
+            onPress={() => this.save()}
+            title="Save"
+          />
+        </SaveButton>
       </Container>
     )
   }

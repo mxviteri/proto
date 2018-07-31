@@ -6,54 +6,35 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import React, { Component } from 'react';
+import { Text, View } from 'react-native';
+import { observer, Provider } from 'mobx-react';
+import styled from 'styled-components';
+import RootStore from './components/StateManagement/rootStore';
 import Login from './components/Login';
 import HomeScreen from './components/HomeScreen';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+const Container = styled.View`
+  flex: 1;
+  background-color: #F5FCFF;
+`;
 
-export default class App extends Component {
-  state = {
-    authenticated: false,
-    user: null
-  }
-
-  authenticate = (bool, user) => {
-    this.setState({ authenticated: bool, user })
+@observer
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.store = new RootStore();
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        {this.state.authenticated ? (
-          <HomeScreen logout={() => this.authenticate(false)} user={this.state.user} />
-        ) : (
-          <Login setAuthenticated={this.authenticate} />
-        )}
-      </View>
+      <Provider rootStore={this.store}>
+        <Container>
+          { this.store.authenticated ? <HomeScreen /> : <Login /> }
+        </Container>
+      </Provider>
     );
   }
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5FCFF'
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+export default App;
