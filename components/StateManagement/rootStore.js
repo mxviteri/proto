@@ -14,6 +14,12 @@ class RootStore {
     return this.user.name;
   }
 
+  @computed get taskTotal() {
+    return this.tasks
+      .filter(task => task.complete)
+      .reduce((accum, next) => accum + next.points, 0);
+  }
+
   @action.bound
   getTasks() {
     Object.keys(Tasks).forEach(person => {
@@ -25,8 +31,12 @@ class RootStore {
 
   @action.bound
   addTask(task) {
-    console.log("adding task:", task);
-    this.tasks.push(task);
+    this.tasks.push({ name: task, complete: false, points: 0 });
+  }
+
+  @action.bound
+  toggleTaskCompletion(index) {
+    this.tasks[index].complete = !this.tasks[index].complete;
   }
 }
 
