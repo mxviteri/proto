@@ -31,6 +31,7 @@ const Name = styled.Text`
 const Info = styled.TextInput`
   background-color: #FFFFFF;
   margin-top: 10;
+  border-radius: 10px;
 `;
 
 const SaveButton = styled.View`

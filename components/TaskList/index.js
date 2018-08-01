@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TextInput, Button, Image } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import styled from 'styled-components';
-import { CheckBox } from 'react-native-elements';
+import { CheckBox, List, ListItem } from 'react-native-elements';
 
 const Container = styled.View`
   margin-top: 10;
@@ -12,6 +12,7 @@ const Container = styled.View`
 const Heading = styled.View`
   flex-direction: row;
   justify-content: space-between;
+  padding: 15px;
 `;
 
 const TaskWrapper = styled.View`
@@ -62,22 +63,16 @@ class TaskList extends Component {
           <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Task List:</Text>
           <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{rootStore.taskTotal}</Text>
         </Heading>
+        <List>
         {
           rootStore.tasks.map((task, index) => (
-            <TaskWrapper key={index}>
-              <Text style={{ textAlignVertical: 'center', flex: 1 }}>{task.name}</Text>
-              <Text style={{ textAlignVertical: 'center' }}>{task.points}</Text>
-              <CheckBox
-                center
-                iconRight
-                onPress={() => this.toggleTask(index)}
-                onIconPress={() => this.toggleTask(index)}
-                containerStyle={{backgroundColor: 'transparent', borderWidth: 0}}
-                checked={task.complete}
-              />
-            </TaskWrapper>
+            <ListItem
+              key={index}
+              onPress={() => this.props.navigation.navigate('Task', { taskIndex: index })}
+              title={task.name} />
           ))
         }
+        </List>
         <NewTask>
           <NewTaskInput
             onChangeText={(text) => this.setState({newTask: text})}

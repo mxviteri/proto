@@ -30,7 +30,7 @@ class RootStore {
 
   @action.bound
   addTask(task) {
-    this.tasks.push({ name: task, complete: false, points: 0 });
+    this.tasks.push({ name: task, complete: false, points: 0, description: '' });
   }
 
   @action.bound
@@ -46,6 +46,14 @@ class RootStore {
     };
   }
 
+  @action.bound
+  saveTask(task, taskIndex) {
+    this.tasks[taskIndex] = {
+      ...this.tasks[taskIndex],
+      ...task
+    };
+  }
+
   @computed get userName() {
     return this.user.name;
   }
@@ -53,7 +61,7 @@ class RootStore {
   @computed get taskTotal() {
     return this.tasks
       .filter(task => task.complete)
-      .reduce((accum, next) => accum + next.points, 0);
+      .reduce((accum, next) => accum + parseInt(next.points), 0);
   }
 }
 
