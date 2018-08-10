@@ -1,15 +1,18 @@
 import { observable, action, computed, reaction } from 'mobx';
 import Tasks from '../fixtures/tasks';
+import Games from '../fixtures/games';
 
 class RootStore {
   @observable authenticated = false;
   @observable user = {};
+  @observable games = [];
   @observable tasks = [];
 
   constructor() {
     reaction(
       () => this.user,
-      () => this.getTasks()
+      () => this.getGames()
+      // () => this.getTasks()
     );
   }
 
@@ -20,10 +23,19 @@ class RootStore {
   }
 
   @action.bound
-  getTasks() {
-    Object.keys(Tasks).forEach(person => {
-      if (this.userName === person) {
-        this.tasks = Tasks[person]
+  getTasks(gameName) {
+    Object.keys(Tasks).forEach(game => {
+      if (gameName === game) {
+        this.tasks = Tasks[game]
+      }
+    });
+  }
+
+  @action.bound
+  getGames() {
+    Object.keys(Games).forEach(person => {
+      if(this.userName === person) {
+        this.games = Games[person]
       }
     });
   }
@@ -62,6 +74,10 @@ class RootStore {
     return this.tasks
       .filter(task => task.complete)
       .reduce((accum, next) => accum + parseInt(next.points), 0);
+  }
+
+  @computed get gameTotal() {
+    return this.games.length;
   }
 }
 

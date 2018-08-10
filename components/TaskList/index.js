@@ -39,19 +39,34 @@ const NewTaskButton = styled.View`
 @inject('rootStore')
 @observer
 class TaskList extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam('gameName'),
+    }
+  };
   state = {
-    newTask: ''
+    name: '',
+    newTask: '',
+    description: ''
   };
 
+  constructor(props){
+    super(props);
+  }
+
+  componentDidMount(){
+    const { navigation } = this.props;
+    const gameIndex = navigation.getParam('gameIndex');
+    this.game = this.props.rootStore.games[gameIndex];
+    this.tasks = this.props.rootStore.tasks;
+    this.gameIndex = gameIndex;
+    this.props.navigation.setParams({ gameName: this.game.name });
+  }
   addTask = (task) => {
     if (task) {
       this.props.rootStore.addTask(task);
       this.setState({ newTask: '' });
     }
-  }
-
-  toggleTask = (taskIndex) => {
-    this.props.rootStore.toggleTaskCompletion(taskIndex);
   }
 
   render () {
@@ -61,7 +76,7 @@ class TaskList extends Component {
       <Container>
         <Heading>
           <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Task List:</Text>
-          <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{rootStore.taskTotal}</Text>
+          {/* <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{rootStore.taskTotal}</Text> */}
         </Heading>
         <List>
         {

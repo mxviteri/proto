@@ -1,5 +1,5 @@
 export default tasks = {
-  Matt: [
+  game1: [
     {
       name: 'first task',
       complete: false,
@@ -19,7 +19,7 @@ export default tasks = {
       description: 'this is a task'
     }
   ],
-  Hung: [
+  game2: [
     {
       name: 'first task',
       complete: false,
@@ -36,6 +36,26 @@ export default tasks = {
       name: 'third task',
       complete: false,
       points: 75,
+      description: 'this is a task'
+    }
+  ],
+  game3: [
+    {
+      name: 'first task',
+      complete: false,
+      points: 100,
+      description: 'this is a task'
+    },
+    {
+      name: 'second task',
+      complete: false,
+      points: 50,
+      description: 'this is a task'
+    },
+    {
+      name: 'third task',
+      complete: false,
+      points: 200,
       description: 'this is a task'
     }
   ]

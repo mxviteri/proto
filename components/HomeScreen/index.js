@@ -6,6 +6,7 @@ import { Icon } from 'react-native-elements';
 import styled from 'styled-components';
 import Profile from '../Profile';
 import TaskList from '../TaskList';
+import GameList from '../GameList';
 import Task from '../TaskList/task';
 
 const Container = styled.View`
@@ -45,7 +46,7 @@ class Home extends Component {
   render() {
     return (
       <Container>
-        <TaskList navigation={this.props.navigation} />
+        <GameList navigation={this.props.navigation} />
         <LogoutButton>
           <Button
             onPress={() => this.logout()}
@@ -61,6 +62,7 @@ const RootStack = createStackNavigator(
   {
     Home: Home,
     Profile: Profile,
+    TaskList: TaskList,
     Task: Task
   },
   {
